@@ -33,6 +33,13 @@ if (isset($_SESSION['username']) && $_SESSION['role'] == '1') {
         <link href="../css/style.css" rel="stylesheet">
         <link href="../css/style-responsive.css" rel="stylesheet">
 
+        <style type="text/css">
+            .container {
+                width: 99%;
+                margin: 15px auto;
+            }
+        </style>
+
         <script type="text/javascript" src="../DataTables/media/js/jquery.js"></script>
         <script type="text/javascript" src="../DataTables/media/js/jquery.dataTables.js"></script>
         <link rel="stylesheet" type="text/css" href="../DataTables/media/css/jquery.dataTables.css">

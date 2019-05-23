@@ -41,6 +41,13 @@ if (isset($_SESSION['username']) && $_SESSION['role'] == '2') {
         <link rel="stylesheet" type="text/css" href="../DataTables/media/css/jquery.dataTables.css">
         <link rel="stylesheet" type="text/css" href="../DataTables/media/css/dataTables.bootstrap.css">
 
+        <style type="text/css">
+            .container {
+                width: 99%;
+                margin: 15px auto;
+            }
+        </style>
+
         <!-- =======================================================
                             Template Name: Dashio
                             Template URL: https://templatemag.com/dashio-bootstrap-admin-template/

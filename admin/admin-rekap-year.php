@@ -52,18 +52,18 @@ if (isset($_SESSION['username']) && $_SESSION['role'] == '2') {
         <link rel="stylesheet" type="text/css" href="../DataTables/media/css/dataTables.bootstrap.css">
 
         <!-- =======================================================
-                                                Template Name: Dashio
-                                                Template URL: https://templatemag.com/dashio-bootstrap-admin-template/
-                                                Author: TemplateMag.com
-                                                License: https://templatemag.com/license/
-                                                ======================================================= -->
+                                        Template Name: Dashio
+                                        Template URL: https://templatemag.com/dashio-bootstrap-admin-template/
+                                        Author: TemplateMag.com
+                                        License: https://templatemag.com/license/
+                                        ======================================================= -->
     </head>
 
     <body>
         <section id="container">
             <!-- **********************************************************************************************************************************************************
-                                                                    TOP BAR CONTENT & NOTIFICATIONS
-                                                                    *********************************************************************************************************************************************************** -->
+                                                            TOP BAR CONTENT & NOTIFICATIONS
+                                                            *********************************************************************************************************************************************************** -->
             <!--header start-->
             <header class="header black-bg">
                 <div class="sidebar-toggle-box">
@@ -80,8 +80,8 @@ if (isset($_SESSION['username']) && $_SESSION['role'] == '2') {
             </header>
             <!--header end-->
             <!-- **********************************************************************************************************************************************************
-                                                                    MAIN SIDEBAR MENU
-                                                                    *********************************************************************************************************************************************************** -->
+                                                            MAIN SIDEBAR MENU
+                                                            *********************************************************************************************************************************************************** -->
             <!--sidebar start-->
             <aside>
                 <div id="sidebar" class="nav-collapse ">
@@ -125,8 +125,8 @@ if (isset($_SESSION['username']) && $_SESSION['role'] == '2') {
             </aside>
             <!--sidebar end-->
             <!-- **********************************************************************************************************************************************************
-                                                    MAIN CONTENT
-                                                    *********************************************************************************************************************************************************** -->
+                                            MAIN CONTENT
+                                            *********************************************************************************************************************************************************** -->
             <!--main content start-->
             <section id="main-content">
                 <section class="wrapper mt">
@@ -167,102 +167,101 @@ if (isset($_SESSION['username']) && $_SESSION['role'] == '2') {
                                 ?>
                                 <?php while ($row = mysqli_fetch_assoc($result)) { ?>
                                     <option value="<?php echo $row['year']; ?>"><?php echo $row['year']; ?></option>
-
                                 <?php } ?>
                             </select>
                             <input type="submit" value="Pilih" />
                         </form>
-
-                        <H4></H4>
-                        <?php
-                        include_once('../helper/config.php');
-
-                        $bulan          = mysqli_query($conn, "SELECT 
+                    </div>
+                    <?php
+                    include_once('../helper/config.php');
+                    $tahun          = $_GET['tahun'];
+                    $bulan          = mysqli_query($conn, "SELECT 
                     YEAR(time) AS year,
                     MONTH(time) AS month
                     FROM transactions 
-                    WHERE YEAR(time) = YEAR(CURDATE()) AND status = '1' GROUP BY month ORDER BY month ASC");
+                    WHERE YEAR(time) = $tahun AND status = '1' GROUP BY month ORDER BY month ASC");
 
-                        $penghasilan    = mysqli_query($conn, "SELECT 
+                    $penghasilan    = mysqli_query($conn, "SELECT 
                     SUM(cost_total) AS cost_total, 
                     MONTH(time) AS month
                     FROM transactions 
-                    WHERE YEAR(time) = YEAR(CURDATE()) AND status = '1' GROUP BY month ORDER BY month ASC");
+                    WHERE YEAR(time) = $tahun AND status = '1' GROUP BY month ORDER BY month ASC");
 
-                        $namaBulan = array(
-                            "1" => "Januari",
-                            "2" => "Februari",
-                            "3" => "Maret",
-                            "4" => "April",
-                            "5" => "Mei",
-                            "6" => "Juni",
-                            "7" => "Juli",
-                            "8" => "Agustus",
-                            "9" => "September",
-                            "10" => "Oktober",
-                            "11" => "November",
-                            "12" => "Desember"
-                        );
-                        ?>
+                    $namaBulan = array(
+                        "1" => "Januari",
+                        "2" => "Februari",
+                        "3" => "Maret",
+                        "4" => "April",
+                        "5" => "Mei",
+                        "6" => "Juni",
+                        "7" => "Juli",
+                        "8" => "Agustus",
+                        "9" => "September",
+                        "10" => "Oktober",
+                        "11" => "November",
+                        "12" => "Desember"
+                    );
+                    ?>
+                    </div>
 
-                        <div class="container">
-                            <canvas id="myChart" width="100" height="100"></canvas>
-                        </div>
-                        <script>
-                            var ctx = document.getElementById("myChart");
-                            var myChart = new Chart(ctx, {
-                                type: 'bar',
-                                data: {
-                                    labels: [<?php while ($b = mysqli_fetch_array($bulan)) {
-                                                    echo '"' . $namaBulan[$b['month']] . '",';
-                                                } ?>],
-                                    datasets: [{
-                                        label: 'Pemasukan ',
-                                        data: [<?php while ($p = mysqli_fetch_array($penghasilan)) {
-                                                    echo '"' . $p['cost_total'] . '",';
-                                                } ?>],
-                                        backgroundColor: [
-                                            'rgba(255, 99, 132, 0.2)',
-                                            'rgba(54, 162, 235, 0.2)',
-                                            'rgba(255, 206, 86, 0.2)',
-                                            'rgba(75, 192, 192, 0.2)',
-                                            'rgba(153, 102, 255, 0.2)',
-                                            'rgba(255, 159, 64, 0.2)',
-                                            'rgba(255, 99, 132, 0.2)',
-                                            'rgba(54, 162, 235, 0.2)',
-                                            'rgba(255, 206, 86, 0.2)',
-                                            'rgba(75, 192, 192, 0.2)',
-                                            'rgba(153, 102, 255, 0.2)',
-                                            'rgba(255, 159, 64, 0.2)'
-                                        ],
-                                        borderColor: [
-                                            'rgba(255,99,132,1)',
-                                            'rgba(54, 162, 235, 1)',
-                                            'rgba(255, 206, 86, 1)',
-                                            'rgba(75, 192, 192, 1)',
-                                            'rgba(153, 102, 255, 1)',
-                                            'rgba(255, 159, 64, 1)',
-                                            'rgba(255, 99, 132, 0.2)',
-                                            'rgba(54, 162, 235, 0.2)',
-                                            'rgba(255, 206, 86, 0.2)',
-                                            'rgba(75, 192, 192, 0.2)',
-                                            'rgba(153, 102, 255, 0.2)',
-                                            'rgba(255, 159, 64, 0.2)'
-                                        ],
-                                        borderWidth: 1
+                    <div class="container">
+                        <canvas id="myChart" width="100" height="100"></canvas>
+                    </div>
+                    <script>
+                        var ctx = document.getElementById("myChart");
+                        var myChart = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: [<?php while ($b = mysqli_fetch_array($bulan)) {
+                                                echo '"' . $namaBulan[$b['month']] . '",';
+                                            } ?>],
+                                datasets: [{
+                                    label: 'Pemasukan ',
+                                    data: [<?php while ($p = mysqli_fetch_array($penghasilan)) {
+                                                echo '"' . $p['cost_total'] . '",';
+                                            } ?>],
+                                    backgroundColor: [
+                                        'rgba(255, 99, 132, 0.2)',
+                                        'rgba(54, 162, 235, 0.2)',
+                                        'rgba(255, 206, 86, 0.2)',
+                                        'rgba(75, 192, 192, 0.2)',
+                                        'rgba(153, 102, 255, 0.2)',
+                                        'rgba(255, 159, 64, 0.2)',
+                                        'rgba(255, 99, 132, 0.2)',
+                                        'rgba(54, 162, 235, 0.2)',
+                                        'rgba(255, 206, 86, 0.2)',
+                                        'rgba(75, 192, 192, 0.2)',
+                                        'rgba(153, 102, 255, 0.2)',
+                                        'rgba(255, 159, 64, 0.2)'
+                                    ],
+                                    borderColor: [
+                                        'rgba(255,99,132,1)',
+                                        'rgba(54, 162, 235, 1)',
+                                        'rgba(255, 206, 86, 1)',
+                                        'rgba(75, 192, 192, 1)',
+                                        'rgba(153, 102, 255, 1)',
+                                        'rgba(255, 159, 64, 1)',
+                                        'rgba(255, 99, 132, 0.2)',
+                                        'rgba(54, 162, 235, 0.2)',
+                                        'rgba(255, 206, 86, 0.2)',
+                                        'rgba(75, 192, 192, 0.2)',
+                                        'rgba(153, 102, 255, 0.2)',
+                                        'rgba(255, 159, 64, 0.2)'
+                                    ],
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                scales: {
+                                    yAxes: [{
+                                        ticks: {
+                                            beginAtZero: true
+                                        }
                                     }]
-                                },
-                                options: {
-                                    scales: {
-                                        yAxes: [{
-                                            ticks: {
-                                                beginAtZero: true
-                                            }
-                                        }]
-                                    }
                                 }
-                            });
-                        </script>
+                            }
+                        });
+                    </script>
                     </div>
 
                     <!-- NEW ICONS -->
@@ -373,11 +372,11 @@ if (isset($_SESSION['username']) && $_SESSION['role'] == '2') {
                     </p>
                     <div class="credits">
                         <!--
-                                                                    You are NOT allowed to delete the credit link to TemplateMag with free version.
-                                                                    You can delete the credit link only if you bought the pro version.
-                                                                    Buy the pro version with working PHP/AJAX contact 
-                                                                    form: https://templatemag.com/dashio-bootstrap-admin-template/Licensing information: https://templatemag.com/license/
-                                                                    -->
+                                                            You are NOT allowed to delete the credit link to TemplateMag with free version.
+                                                            You can delete the credit link only if you bought the pro version.
+                                                            Buy the pro version with working PHP/AJAX contact 
+                                                            form: https://templatemag.com/dashio-bootstrap-admin-template/Licensing information: https://templatemag.com/license/
+                                                            -->
                         Created with Dashio template by <a href="https://templatemag.com/">TemplateMag</a>
                     </div>
                     <a href="font_awesome.html#" class="go-top">
