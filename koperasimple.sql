@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: May 16, 2019 at 02:02 AM
+-- Generation Time: May 23, 2019 at 04:35 AM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.2
 
@@ -43,8 +43,8 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `product_image`, `product_name`, `product_price`, `product_quantity`, `created_at`, `updated_at`) VALUES
-(2, 'https://lorempixel.com/640/480/?49665', 'sequel', 5392, 83, NULL, NULL),
-(3, 'https://lorempixel.com/640/480/?49665', 'at', 3700, 93, NULL, NULL),
+(2, 'https://lorempixel.com/640/480/?49665', 'sequel', 5392, 80, NULL, NULL),
+(3, 'https://lorempixel.com/640/480/?49665', 'at', 3700, 90, NULL, NULL),
 (4, 'https://lorempixel.com/640/480/?44682', 'porro', 1617, 54, NULL, NULL),
 (5, 'https://lorempixel.com/640/480/?90253', 'culpa', 9106, 95, NULL, NULL),
 (6, 'https://lorempixel.com/640/480/?20816', 'libero', 9152, 50, NULL, NULL),
@@ -109,6 +109,7 @@ CREATE TABLE `transactions` (
   `quantity` int(11) NOT NULL,
   `cost_total` int(11) NOT NULL,
   `status` int(11) NOT NULL DEFAULT '0',
+  `time` date NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -117,8 +118,13 @@ CREATE TABLE `transactions` (
 -- Dumping data for table `transactions`
 --
 
-INSERT INTO `transactions` (`id`, `code_transaction`, `user_id`, `product_id`, `quantity`, `cost_total`, `status`, `created_at`, `updated_at`) VALUES
-(30, 'SMKYasiha-FKY0I8C27J', 'user', 2, 7, 37744, 1, NULL, NULL);
+INSERT INTO `transactions` (`id`, `code_transaction`, `user_id`, `product_id`, `quantity`, `cost_total`, `status`, `time`, `created_at`, `updated_at`) VALUES
+(1, 'SISWAYasiha-FKY0I8Caqw', 'user', 2, 7, 37744, 1, '2019-05-01', NULL, NULL),
+(30, 'SISWAYasiha-FKY0I8C27J', 'user', 2, 7, 37744, 1, '2019-04-11', NULL, NULL),
+(31, 'SISWAYasiha-XDNWCOV0L6', 'user', 2, 3, 16176, 1, '2019-01-23', NULL, NULL),
+(32, 'GURUYasiha-VMJ2K04TWO', 'guru', 3, 3, 11100, 0, '2019-05-23', NULL, NULL),
+(35, 'GURUYasiha-XDNaCOV0L6', 'guru', 2, 3, 16176, 1, '2018-05-13', NULL, NULL),
+(36, 'GURUYasiha-XDAWCOV0L6', 'guru', 8, 6, 16176, 1, '2019-01-23', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -142,7 +148,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `email`, `role`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'admin@mail.com', 1, NULL, NULL, NULL),
+(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'admin@mail.com', 2, NULL, NULL, NULL),
+(2, 'guru', '77e69c137812518e359196bb2f5e9bb9', 'guru@mail.com', 1, NULL, NULL, NULL),
 (3, 'user', 'ee11cbb19052e40b07aac0ca060c23ee', 'user@mail.com', 0, NULL, NULL, NULL),
 (4, 'user1', 'ee11cbb19052e40b07aac0ca060c23ee', 'user1@mail.com', 0, NULL, NULL, NULL),
 (5, 'user2', 'ee11cbb19052e40b07aac0ca060c23ee', 'user2@mail.com', 0, NULL, NULL, NULL),
@@ -194,19 +201,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- AUTO_INCREMENT for table `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -8,13 +8,10 @@
 </head>
 <body>
 
-<a href="admin-product.php">Product</a>
+<a href="guru-product.php">Product</a>
 <hr>
-<a href="admin-transaction.php">Transaction</a>
+<a href="guru-transaction.php">Transaction</a>
 <hr>
-<a href="admin-user.php">User</a>
-<hr>
-<a href="admin-rekap.php">Rekap</a>
     
 </body>
 </html>

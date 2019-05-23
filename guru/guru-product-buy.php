@@ -5,7 +5,7 @@ require '../helper/config.php';
 if (isset($_POST['add_cart'])) {
     $unique_code_transaction = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
-    $code_transaction     = "SISWAYasiha-" .(substr(str_shuffle($unique_code_transaction), 0,10)); 
+    $code_transaction     = "GURUYasiha-" .(substr(str_shuffle($unique_code_transaction), 0,10)); 
     $user_name            = $_POST['user_name'];
     $product_id             = $_POST['product_id'];
     $product_price          = $_POST['product_price'];
@@ -27,4 +27,4 @@ if (isset($_POST['add_cart'])) {
 } else {
     $_SESSION['error'] = 'Fill up form first';
 }
-header('location: user-transaction.php');
+header('location: guru-transaction.php');

@@ -32,9 +32,11 @@
                                 <label class="control-label modal-label">Role:</label>
                             </div>
                             <div class="col-sm-10">
-                            <select class="col-sm-10" name="role" require>
+                            <select class="col-sm-10" name="role" required>
+                                <option value="">- Pilih Role -</option>
                                 <option value="0">User</option>
-                                <option value="1">Admin</option>
+                                <option value="1">guru</option>
+                                <option value="2">Admin</option>
                             </select>                            
                             </div>
                         </div>

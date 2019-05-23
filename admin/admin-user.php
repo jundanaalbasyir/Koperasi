@@ -1,6 +1,6 @@
 <?php
 session_start();
-if (isset($_SESSION['username']) && $_SESSION['role'] == '1') {
+if (isset($_SESSION['username']) && $_SESSION['role'] == '2') {
 
     ?>
 
@@ -103,6 +103,12 @@ if (isset($_SESSION['username']) && $_SESSION['role'] == '1') {
                                 <span>Users</span>
                             </a>
                         </li>
+                        <li class="sub-menu">
+                            <a href="admin-rekap.php">
+                                <i class="fa fa-th"></i>
+                                <span>Recap</span>
+                            </a>
+                        </li>
                     </ul>
                     <!-- sidebar menu end-->
                 </div>
@@ -163,7 +169,8 @@ if (isset($_SESSION['username']) && $_SESSION['role'] == '1') {
                                 while ($row = $query->fetch_assoc()) {
                                     $status = array(
                                         "0" => "User",
-                                        "1" => "Admin"
+                                        "1" => "Guru",
+                                        "2" => "Admin"
                                     );
                                     echo
                                     "<tr>

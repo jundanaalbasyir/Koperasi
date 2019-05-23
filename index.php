@@ -1,10 +1,12 @@
 <?php
 error_reporting(0);
 session_start();
-if ($_SESSION['role'] == "1") {
-    header("Location: admin/index.php");
-} elseif ($_SESSION['role'] == "0") {
-    header("Location: user/index.php");
+if ($_SESSION['role'] == "2") {
+    header("Location: admin/admin-dashboard.php");
+} elseif ($_SESSION['role'] == "1") {
+    header("Location: guru/guru-dashboard.php");
+}elseif ($_SESSION['role'] == "0") {
+    header("Location: user/user-dashboard.php");
 }
 ?>
 

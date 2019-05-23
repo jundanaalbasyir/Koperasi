@@ -92,7 +92,7 @@ if (isset($_SESSION['username']) && $_SESSION['role'] == '2') {
                             </a>
                         </li>
                         <li class="sub-menu">
-                            <a class="active" href="admin-transaction.php">
+                            <a href="admin-transaction.php">
                                 <i class="fa fa-tasks"></i>
                                 <span>Transaction</span>
                             </a>
@@ -104,7 +104,7 @@ if (isset($_SESSION['username']) && $_SESSION['role'] == '2') {
                             </a>
                         </li>
                         <li class="sub-menu">
-                            <a href="admin-rekap.php">
+                            <a class="active" href="admin-rekap.php">
                                 <i class="fa fa-th"></i>
                                 <span>Recap</span>
                             </a>
@@ -120,7 +120,7 @@ if (isset($_SESSION['username']) && $_SESSION['role'] == '2') {
             <!--main content start-->
             <section id="main-content">
                 <section class="wrapper mt">
-                    <h3><i class="fa fa-angle-right"></i> Transaction</h3>
+                    <h3><i class="fa fa-angle-right"></i> Recap</h3>
                     <hr>
                     <div class="row">
                         <?php
@@ -146,44 +146,52 @@ if (isset($_SESSION['username']) && $_SESSION['role'] == '2') {
                         } ?>
                     </div>                    
                     <!-- NEW ICONS -->
-                    <h4><i class="fa fa-angle-right"></i> List Transactions</h4>
+                    <h4><i class="fa fa-angle-right"></i> List Recap / Month</h4>
                     <div class="container">
                         <table class="table table-striped table-bordered data">
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Code Transaction</th>
-                                    <th>User ID</th>
-                                    <th>Product Name</th>
-                                    <th>Quantity</th>
-                                    <th>Cost Total</th>
-                                    <th>Status</th>
-                                    <th>#</th>
+                                    <th>Month</th>
+                                    <th>Amount of purchase</th>
+                                    <th>Detail</th>
                                 </tr>
                             </thead>
                             <tbody>
                             <?php
                                 include_once('../helper/config.php');
-                                $sql = "SELECT * FROM transactions INNER JOIN products ON transactions.product_id = products.id";
+                                $sql = "SELECT user_id, time, status, 
+                                SUM(quantity) AS quantity, 
+                                MONTH(time) AS month,
+                                YEAR(time) AS year
+                                FROM transactions
+                                WHERE status='1'
+                                GROUP BY month, year
+                                ORDER BY year, month ASC";
+                                $namaBulan = array(
+                                    "1" => "Januari",
+                                    "2" => "Februari",
+                                    "3" => "Maret",
+                                    "4" => "April",
+                                    "5" => "Mei",
+                                    "6" => "Juni",
+                                    "7" => "Juli",
+                                    "8" => "Agustus",
+                                    "9" => "September",
+                                    "10" => "Oktober",
+                                    "11" => "November",
+                                    "12" => "Desember"
+                                );
                                 $query = $conn->query($sql);
                                 $id = 1;
                                 while ($row = $query->fetch_assoc()) {
-                                    $status = array(
-                                        "0" => "Pending",
-                                        "1" => "Paid",
-                                        "2" => "Canceled"
-                                    );
                                     echo
                                     "<tr>
                                     <td>" . $id++ . "</td>
-                                    <td>" . $row['code_transaction'] . "</td>
-                                    <td>" . $row['user_id'] . "</td>
-                                    <td>" . $row['product_name'] . "</td>
+                                    <td>" . $namaBulan[$row['month']]." ".$row['year'] . "</td>
                                     <td>" . $row['quantity'] . "</td>
-                                    <td>" . $row['cost_total'] . "</td>
-                                    <td>" . $status[$row['status']] . "</td>
                                     <td>
-                                    <a href='#edit_" . $row['id'] . "' class='btn btn-success btn-sm' data-toggle='modal'><span class='glyphicon glyphicon-edit'></span> Change Status</a>
+                                    <a href='admin-rekap-detail-month.php?page=detail&month=$row[month]&year=$row[year]' class='btn btn-success btn-sm'><span class='glyphicon glyphicon-edit'></span> Detail</a>
                                     </td>
                                     </tr>";
                                     include('admin-transaction-modal.php');
@@ -192,7 +200,46 @@ if (isset($_SESSION['username']) && $_SESSION['role'] == '2') {
                             </tbody>
                         </table>
                     </div>
-                    <hr>
+                    <h4><i class="fa fa-angle-right"></i> List Recap / User</h4>
+                    <div class="container">
+                        <table class="table table-striped table-bordered data">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>User</th>
+                                    <th>Amount of purchase</th>
+                                    <th>Detail</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <?php
+                                include_once('../helper/config.php');
+                                $sql = 
+                                "SELECT user_id, status, 
+                                SUM(quantity) AS quantity,
+                                MONTH(time) AS month  
+                                FROM transactions
+                                WHERE status='1'
+                                GROUP BY user_id";
+                                $query = $conn->query($sql);
+                                // " . $row['user_id'] . "
+                                $id = 1;
+                                while ($row = $query->fetch_assoc()) {
+                                    echo
+                                    "<tr>
+                                    <td>" . $id++ . "</td>
+                                    <td>" . $row['user_id'] . "</td>
+                                    <td>" . $row['quantity'] . "</td>
+                                    <td>
+                                    <a href='admin-rekap-detail-user.php?page=detail&id=$row[user_id]' class='btn btn-success btn-sm'><span class='glyphicon glyphicon-edit'></span> Detail</a>
+                                    </td>
+                                    </tr>";
+                                }
+                                ?>                            
+                            </tbody>
+                        </table>
+                    </div>
+                    <hr>                    
                 </section>
                 <!-- /wrapper -->
             </section>

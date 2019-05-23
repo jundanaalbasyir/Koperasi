@@ -1,6 +1,6 @@
 <?php
 session_start();
-if (isset($_SESSION['username']) && $_SESSION['role'] == '2') {
+if (isset($_SESSION['username']) && $_SESSION['role'] == '1') {
 
     ?>
 
@@ -65,33 +65,21 @@ if (isset($_SESSION['username']) && $_SESSION['role'] == '2') {
                         <p class="centered"><a href="profile.html"><img src="../img/ui-sam.jpg" class="img-circle" width="80"></a></p>
                         <h5 class="centered"><?php echo ($_SESSION['username']) ?></h5>
                         <li class="mt">
-                            <a href="admin-dashboard.php">
+                            <a href="guru-dashboard.php">
                                 <i class="fa fa-dashboard"></i>
                                 <span>Dashboard</span>
                             </a>
                         </li>
                         <li class="sub-menu">
-                            <a class="active" href="admin-product.php">
+                            <a class="active" href="guru-product.php">
                                 <i class="fa fa-book"></i>
                                 <span>Products</span>
                             </a>
                         </li>
                         <li class="sub-menu">
-                            <a href="admin-transaction.php">
+                            <a href="guru-transaction.php">
                                 <i class="fa fa-tasks"></i>
                                 <span>Transaction</span>
-                            </a>
-                        </li>
-                        <li class="sub-menu">
-                            <a href="admin-user.php">
-                                <i class="fa fa-th"></i>
-                                <span>Users</span>
-                            </a>
-                        </li>
-                        <li class="sub-menu">
-                            <a href="admin-rekap.php">
-                                <i class="fa fa-th"></i>
-                                <span>Recap</span>
                             </a>
                         </li>
                     </ul>
@@ -104,64 +92,40 @@ if (isset($_SESSION['username']) && $_SESSION['role'] == '2') {
                 <section class="wrapper mt">
                     <h3><i class="fa fa-angle-right"></i> Product</h3>
                     <hr>
-                    <div class="row">
-                        <?php
-                        if (isset($_SESSION['error'])) {
-                            echo "
-                            <div class='showback alert alert-danger alert-dismissable'>
-                            <button class='close'>&times;</button>
-                            " . $_SESSION['error'] . "
-                            </div>
-                            ";
-                            unset($_SESSION['error']);
-                        }
-                        if (isset($_SESSION['success'])) {
-                            echo "
-                            <div class='col-lg-12 col-md-12 col-sm-12'>
-                            <div class='showback alert alert-success alert-dismissable'>
-                            <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-                            " . $_SESSION['success'] . "
-                            </div>
-                            </div>
-                            ";
-                            unset($_SESSION['success']);
-                        } ?>
-                    </div>                    
                     <!-- NEW ICONS -->
-                    <h4><i class="fa fa-angle-right"></i> List Products</h4>
-                    <a href="#addnew" data-toggle="modal" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Add New Product</a>
-                    <br><br>
+                    <h4><i class="fa fa-angle-right"></i> List Product</h4>
                     <div class="container">
                         <table id="myTable" class="ttable table-striped table-bordered data" width="95%">
                             <thead>
                                 <th >ID</th>
+                                <th >Product Image</th>
                                 <th >Product Name</th>
                                 <th >Product Price</th>
                                 <th >Product Quantity</th>
-                                <th >#</th>
+                                <th >Buy</th>
                             </thead>
                             <tbody>
                                 <?php
                                 include_once('../helper/config.php');
                                 $sql = "SELECT * FROM products";
                                 $query = $conn->query($sql);
-                                $id = 1;
                                 while ($row = $query->fetch_assoc()) {
                                     echo
                                     "<tr>
-                                    <td>" . $id++ . "</td>
+                                    <td>" . $row['id'] . "</td>
+                                    <td>" . $row['product_image'] . "</td>
                                     <td>" . $row['product_name'] . "</td>
                                     <td>" . $row['product_price'] . "</td>
                                     <td>" . $row['product_quantity'] . "</td>
                                     <td>
-                                    <a href='#edit_" . $row['id'] . "' class='btn btn-success btn-sm' data-toggle='modal'><span class='glyphicon glyphicon-edit'></span> Edit</a>
-                                    <a href='#delete_" . $row['id'] . "' class='btn btn-danger btn-sm' data-toggle='modal'><span class='glyphicon glyphicon-trash'></span> Delete</a>                            
+                                    <a href='#edit_" . $row['id'] . "' class='btn btn-success btn-sm' data-toggle='modal'><span class='glyphicon glyphicon-shopping-cart'></span> Buy</a>
                                     </td>
                                     </tr>";
-                                    include('admin-product-modal.php');
+                                    include('guru-product-order.php');
                                 }
                                 ?>
                             </tbody>
+
                         </table>
                     </div>
                     <hr>
@@ -195,7 +159,7 @@ if (isset($_SESSION['username']) && $_SESSION['role'] == '2') {
         <script src="../lib/common-scripts.js"></script>
         <!--script for this page-->
     </body>
-    <script>        
+    <script>
         $(document).ready(function() {
             //inialize datatable
             $('#myTable').DataTable();
@@ -203,7 +167,7 @@ if (isset($_SESSION['username']) && $_SESSION['role'] == '2') {
             //hide alert
             $(document).on('click', '.close', function() {
                 $('.alert').hide();
-            })            
+            })
         });
     </script>
 
@@ -211,6 +175,6 @@ if (isset($_SESSION['username']) && $_SESSION['role'] == '2') {
 
 <?php
 } else {
-    header("location:../admin-dashboard.php");
+    header("location:../guru-dashboard.php");
 }
 ?>

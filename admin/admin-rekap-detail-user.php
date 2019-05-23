@@ -92,7 +92,7 @@ if (isset($_SESSION['username']) && $_SESSION['role'] == '2') {
                             </a>
                         </li>
                         <li class="sub-menu">
-                            <a class="active" href="admin-transaction.php">
+                            <a href="admin-transaction.php">
                                 <i class="fa fa-tasks"></i>
                                 <span>Transaction</span>
                             </a>
@@ -104,7 +104,7 @@ if (isset($_SESSION['username']) && $_SESSION['role'] == '2') {
                             </a>
                         </li>
                         <li class="sub-menu">
-                            <a href="admin-rekap.php">
+                            <a class="active" href="admin-rekap.php">
                                 <i class="fa fa-th"></i>
                                 <span>Recap</span>
                             </a>
@@ -146,50 +146,56 @@ if (isset($_SESSION['username']) && $_SESSION['role'] == '2') {
                         } ?>
                     </div>                    
                     <!-- NEW ICONS -->
-                    <h4><i class="fa fa-angle-right"></i> List Transactions</h4>
+                    <a href="admin-rekap.php" class="btn btn-primary">Kembali</a>
+                    <h4><i class="fa fa-angle-right"></i> List Transactions <?php echo $_GET['id'] ;?></h4>
                     <div class="container">
                         <table class="table table-striped table-bordered data">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Code Transaction</th>
-                                    <th>User ID</th>
-                                    <th>Product Name</th>
-                                    <th>Quantity</th>
-                                    <th>Cost Total</th>
-                                    <th>Status</th>
-                                    <th>#</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            <?php
-                                include_once('../helper/config.php');
-                                $sql = "SELECT * FROM transactions INNER JOIN products ON transactions.product_id = products.id";
-                                $query = $conn->query($sql);
+                        <thead>
+                            <tr>
+                                <th>Month</th>
+                                <th>Code Transaction</th>
+                                <th>Product Name</th>
+                                <th>Amount of purchase</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php
                                 $id = 1;
+                                $namaBulan = array(
+                                    "1" => "Januari",
+                                    "2" => "Februari",
+                                    "3" => "Maret",
+                                    "4" => "April",
+                                    "5" => "Mei",
+                                    "6" => "Juni",
+                                    "7" => "Juli",
+                                    "8" => "Agustus",
+                                    "9" => "September",
+                                    "10" => "Oktober",
+                                    "11" => "November",
+                                    "12" => "Desember"
+                                );
+                                include_once('../helper/config.php');
+                                $id = $_GET['id'];
+                                $sql = "SELECT product_name, quantity, code_transaction,
+                                MONTH(time) AS month,
+                                YEAR(time) AS year 
+                                FROM transactions 
+                                LEFT JOIN products ON transactions.product_id = products.id 
+                                WHERE user_id = '$id' AND status='1'";
+                                // $sql = "SELECT * FROM transactions WHERE user_id='".$_SESSION['username']."'";
+                                $query = $conn->query($sql);
                                 while ($row = $query->fetch_assoc()) {
-                                    $status = array(
-                                        "0" => "Pending",
-                                        "1" => "Paid",
-                                        "2" => "Canceled"
-                                    );
                                     echo
                                     "<tr>
-                                    <td>" . $id++ . "</td>
+                                    <td>" . $namaBulan[$row['month']]." ".$row['year'] . "</td>
                                     <td>" . $row['code_transaction'] . "</td>
-                                    <td>" . $row['user_id'] . "</td>
                                     <td>" . $row['product_name'] . "</td>
                                     <td>" . $row['quantity'] . "</td>
-                                    <td>" . $row['cost_total'] . "</td>
-                                    <td>" . $status[$row['status']] . "</td>
-                                    <td>
-                                    <a href='#edit_" . $row['id'] . "' class='btn btn-success btn-sm' data-toggle='modal'><span class='glyphicon glyphicon-edit'></span> Change Status</a>
-                                    </td>
                                     </tr>";
-                                    include('admin-transaction-modal.php');
                                 }
-                                ?>                            
-                            </tbody>
+                                ?>                                
+                        </tbody>                        
                         </table>
                     </div>
                     <hr>

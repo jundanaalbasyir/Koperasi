@@ -16,12 +16,14 @@ if (isset($_POST['login'])) {
 		$_SESSION['email']		= $row['email'];
 		$_SESSION['role']  		= $row['role'];
 
-		if ($row['role'] == "1") {
-			echo "<script>alert('Welcome To Administrator!');document.location.href='../admin/admin-dashboard.php'</script>/n";
+		if ($row['role'] == "2") {
+			echo "<script>document.location.href='../admin/admin-dashboard.php'</script>/n";
+		} else if ($row['role'] == "1") {
+			echo "<script>document.location.href='../guru/guru-dashboard.php'</script>/n";
 		} else if ($row['role'] == "0") {
-			echo "<script>alert('Welcome To User !');document.location.href='../user/user-dashboard.php'</script>/n";
+			echo "<script>document.location.href='../user/user-dashboard.php'</script>/n";
 		} else {
-			echo "<script>alert('Login Gagal !!!');document.location.href='index'</script>/n";
+			echo "<script>document.location.href='index'</script>/n";
 		}
 	}
 }
