@@ -12,6 +12,8 @@
 <hr>
 <a href="user-transaction.php">Transaction</a>
 <hr>
+<a href="user-savings.php">Savings</a>
+<hr>
     
 </body>
 </html>
