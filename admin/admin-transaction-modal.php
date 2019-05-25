@@ -12,7 +12,10 @@
                 <div class="container-fluid">
                     <form method="POST" action="admin-transaction-edit.php">
                         <input type="hidden" class="form-control" name="id" value="<?php echo $row['id']; ?>">
+                        <input type="text" class="form-control" name="user_id" value="<?php echo $row['user_id']; ?>">
+                        <input type="hidden" class="form-control" name="product_id" value="<?php echo $row['product_id']; ?>">
                         <input type="hidden" class="form-control" name="quantity" value="<?php echo $row['quantity']; ?>">
+                        <input type="hidden" class="form-control" name="poin" value="<?php echo $row['poin']; ?>">
                         <input type="hidden" class="form-control" name="product_quantity" value="<?php echo $row['product_quantity']; ?>">
                         <div class="row form-group">
                             <div class="col-sm-2">
@@ -35,7 +38,7 @@
                                 } else {
                                     ?>
                                     <input type="radio" name="status" value="2" 
-                                    <? if ($row['status'] == '2') {echo 'checked';} ?>/> Canceled
+                                    <? if ($row['status'] == '2') {echo 'checked';} ?> readonly/> Canceled
                                     <hr>
                                     <?php
                                 } 

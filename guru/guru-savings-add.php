@@ -9,7 +9,7 @@ if (isset($_POST['add'])) {
     $user_name              = $_POST['user_name'];
     $coin                   = $_POST['savings_coin'];
 
-    $sql    = "INSERT INTO savings_record (code_savings, user_id, savings_coin, savings_status) VALUES ('$code_savings', '$user_name', '$coin', 1)";
+    $sql    = "INSERT INTO savings_record (code_savings, user_id, savings_coin) VALUES ('$code_savings', '$user_name', '$coin')";
 
     if ($conn->query($sql)) {
         $_SESSION['success'] = 'Data added successfully';
@@ -20,4 +20,4 @@ if (isset($_POST['add'])) {
 } else {
     $_SESSION['error'] = 'Fill up form first';
 }
-header('location: user-savings.php');
+header('location: guru-savings.php');

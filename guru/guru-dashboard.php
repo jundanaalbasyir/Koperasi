@@ -12,6 +12,7 @@
 <hr>
 <a href="guru-transaction.php">Transaction</a>
 <hr>
-    
+<a href="guru-savings.php">Savings</a>
+<hr>   
 </body>
 </html>

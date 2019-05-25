@@ -10,7 +10,7 @@
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
-                    <form method="POST" action="user-savings-add.php">
+                    <form method="POST" action="guru-savings-add.php">
                         <input type="hidden" class="form-control" name="user_name" value="<?php echo $_SESSION['username']; ?>">
                         <div class="row form-group">
                             <div class="col-sm-2">

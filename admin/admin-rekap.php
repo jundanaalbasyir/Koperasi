@@ -119,6 +119,12 @@ if (isset($_SESSION['username']) && $_SESSION['role'] == '2') {
                                 <span>Recap</span>
                             </a>
                         </li>
+                        <li class="sub-menu">
+                            <a href="admin-savings.php">
+                                <i class="fa fa-th"></i>
+                                <span>Savings</span>
+                            </a>
+                        </li>
                     </ul>
                     <!-- sidebar menu end-->
                 </div>
@@ -167,7 +173,6 @@ if (isset($_SESSION['username']) && $_SESSION['role'] == '2') {
                                 ?>
                                 <?php while ($row = mysqli_fetch_assoc($result)) { ?>
                                     <option value="<?php echo $row['year']; ?>"><?php echo $row['year']; ?></option>
-
                                 <?php } ?>
                             </select>
                             <input type="submit" value="Pilih" />

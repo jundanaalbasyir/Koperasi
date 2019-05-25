@@ -105,6 +105,16 @@ if (isset($_SESSION['username']) && $_SESSION['role'] == '0') {
                 <section class="wrapper mt">
                     <h3><i class="fa fa-angle-right"></i> Savings</h3>
                     <hr>
+                    <?php
+                    include_once('../helper/config.php');
+
+                    $sql    = "SELECT * FROM savings WHERE user_id = '$_SESSION[username]'";
+                    $query  = $conn->query($sql);
+                    ?>
+                    <?php while ($row = $query->fetch_assoc()) { ?>
+                        <h4>Your Money : <b><?php echo $row['coin']; ?></b> Your Poin : <b><?php echo $row['poin']; ?></b></h4>
+                    <?php } ?>
+                    <hr>
                     <div class="row">
                         <?php
                         if (isset($_SESSION['error'])) {
@@ -129,8 +139,9 @@ if (isset($_SESSION['username']) && $_SESSION['role'] == '0') {
                         } ?>
                     </div>
                     <!-- NEW ICONS -->
-                    <h4><i class="fa fa-angle-right"></i> List Products</h4>
-                    <a href="#addnew" data-toggle="modal" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Add New Product</a>
+                    <h4><i class="fa fa-angle-right"></i> List Savings</h4>
+                    <a href="#addnew" data-toggle="modal" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Save your money</a>
+
                     <br><br>
                     <div class="container">
                         <table id="myTable" class="ttable table-striped table-bordered data" width="95%">
@@ -151,13 +162,14 @@ if (isset($_SESSION['username']) && $_SESSION['role'] == '0') {
                                     '0' => 'Pending',
                                     '1' => 'Success',
                                     '2' => 'Failed'
-                                );                                
+                                );
+
                                 while ($row = $query->fetch_assoc()) {
                                     echo
-                                    "<tr>
+                                        "<tr>
                                     <td>" . $id++ . "</td>
                                     <td>" . $row['code_savings'] . "</td>
-                                    <td>" . $row['coin'] . "</td>
+                                    <td>" . $row['savings_coin'] . "</td>
                                     <td>" . $status[$row['status']] . "</td>
                                     <td>
                                     <a href='user-savings-print.php?id=" . $row['code_savings'] . "' class='btn btn-success btn-sm'><span class='glyphicon glyphicon-print'></span> Print</a>

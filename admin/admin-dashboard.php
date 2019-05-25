@@ -15,6 +15,8 @@
 <a href="admin-user.php">User</a>
 <hr>
 <a href="admin-rekap.php">Rekap</a>
+<hr>
+<a href="admin-savings.php">Savings</a>
     
 </body>
 </html>

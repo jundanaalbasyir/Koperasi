@@ -3,24 +3,31 @@ session_start();
 require '../helper/config.php';
 
 if (isset($_POST['edit'])) {
+    $user_name              = $_POST['user_id'];
     $id                     = $_POST['id'];
+    $product_id             = $_POST['product_id'];
     $status                 = $_POST['status'];
     $product_other_cancel   = $_POST['product_quantity'] - $_POST['quantity'];
     $product_after_cancel   = $_POST['product_quantity'] + $_POST['quantity'];
+    $add_poin               = $_POST['poin'] + $_POST['quantity'];
 
-    $sql    = "UPDATE transactions SET status = '$status' WHERE product_id = '$id'";
-    $sql1   = "UPDATE products SET product_quantity = '$product_other_cancel' WHERE id = '$id'";
-    $sql2   = "UPDATE products SET product_quantity = '$product_after_cancel' WHERE id = '$id'";
+    $sql    = "UPDATE transactions SET status = '$status' WHERE id = '$id'";
+    $sql1   = "UPDATE products SET product_quantity = '$product_after_cancel' WHERE id = '$product_id'";
+    $sql2   = "UPDATE savings SET poin = '$add_poin' WHERE user_id = '$user_name'";
 
-    // use for MySQLi OOP
-    if ($conn->query($sql)) {
-        if  ($_POST['status'] != 2){
-            $conn->query($sql);
-        } else {
-            $conn->query($sql2);                
-        }
+    if ($_POST['status'] == 2) {
+        $conn->query($sql);
+        $conn->query($sql1);
         $_SESSION['success'] = 'Transaction updated successfully';
-    } else {
+    } else if ($_POST['status'] == 0)  {
+        $conn->query($sql);
+        $_SESSION['success'] = 'Transaction updated successfully';
+    } else if ($_POST['status'] == 1){
+        $conn->query($sql);
+        $conn->query($sql2);
+        $_SESSION['success'] = 'Transaction updated successfully';
+    }
+    else {
         $_SESSION['error'] = 'Something went wrong in updating transaction';
     }
 } else {

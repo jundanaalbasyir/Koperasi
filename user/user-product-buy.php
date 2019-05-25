@@ -5,16 +5,15 @@ require '../helper/config.php';
 if (isset($_POST['add_cart'])) {
     $unique_code_transaction = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
-    $code_transaction     = "SISWAYasiha-" .(substr(str_shuffle($unique_code_transaction), 0,10)); 
-    $user_name            = $_POST['user_name'];
+    $code_transaction       = "SISWAYasiha-" .(substr(str_shuffle($unique_code_transaction), 0,10)); 
+    $user_name              = $_POST['user_name'];
     $product_id             = $_POST['product_id'];
     $product_price          = $_POST['product_price'];
     $product_quantity       = $_POST['product_quantity'];
     $product_cost_total     = $_POST['product_price'] * $_POST['product_quantity'];
-
     $product_after_buy      = $_POST['prdct_quantity'] - $_POST['product_quantity'];
 
-    $sql    = "INSERT INTO transactions (code_transaction, user_id, product_id, quantity, cost_total) VALUES ('$code_transaction', '$user_name', '$product_id', '$product_quantity', '$product_cost_total')";
+    $sql    = "INSERT INTO transactions (code_transaction, user_id, product_id, quantity, cost_total, time) VALUES ('$code_transaction', '$user_name', '$product_id', '$product_quantity', '$product_cost_total',  CURDATE())";
     $sql1   = "UPDATE products SET product_quantity = '$product_after_buy' WHERE id = '$product_id'";
 
     if ($conn->query($sql)) {

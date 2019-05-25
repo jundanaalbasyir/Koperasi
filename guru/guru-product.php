@@ -89,6 +89,12 @@ if (isset($_SESSION['username']) && $_SESSION['role'] == '1') {
                                 <span>Transaction</span>
                             </a>
                         </li>
+                         <li class="sub-menu">
+                            <a href="guru-savings.php">
+                                <i class="fa fa-tasks"></i>
+                                <span>Savings</span>
+                            </a>
+                        </li>
                     </ul>
                     <!-- sidebar menu end-->
                 </div>

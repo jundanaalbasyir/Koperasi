@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: May 23, 2019 at 04:35 AM
+-- Generation Time: May 26, 2019 at 01:50 AM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.2
 
@@ -43,15 +43,16 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `product_image`, `product_name`, `product_price`, `product_quantity`, `created_at`, `updated_at`) VALUES
-(2, 'https://lorempixel.com/640/480/?49665', 'sequel', 5392, 80, NULL, NULL),
-(3, 'https://lorempixel.com/640/480/?49665', 'at', 3700, 90, NULL, NULL),
+(1, 'https://lorempixel.com/640/480/?54746', 'Coba aja', 8997, 180, NULL, NULL),
+(2, 'https://lorempixel.com/640/480/?49665', 'sequel', 5392, 25, NULL, NULL),
+(3, 'https://lorempixel.com/640/480/?49665', 'at', 3700, 96, NULL, NULL),
 (4, 'https://lorempixel.com/640/480/?44682', 'porro', 1617, 54, NULL, NULL),
 (5, 'https://lorempixel.com/640/480/?90253', 'culpa', 9106, 95, NULL, NULL),
-(6, 'https://lorempixel.com/640/480/?20816', 'libero', 9152, 50, NULL, NULL),
+(6, 'https://lorempixel.com/640/480/?20816', 'libero', 9152, 27, NULL, NULL),
 (7, 'https://lorempixel.com/640/480/?56012', 'sit', 4538, 90, NULL, NULL),
 (8, 'https://lorempixel.com/640/480/?70870', 'perferendis', 9639, 69, NULL, NULL),
 (9, 'https://lorempixel.com/640/480/?81107', 'et', 3205, 12, NULL, NULL),
-(10, 'https://lorempixel.com/640/480/?42135', 'doloribus', 1015, 37, NULL, NULL),
+(10, 'https://lorempixel.com/640/480/?42135', 'doloribus', 1015, 48, NULL, NULL),
 (11, 'https://lorempixel.com/640/480/?36440', 'ex', 7775, 96, NULL, NULL),
 (12, 'https://lorempixel.com/640/480/?80720', 'laborum', 9794, 5, NULL, NULL),
 (13, 'https://lorempixel.com/640/480/?57201', 'et', 8903, 32, NULL, NULL),
@@ -89,11 +90,59 @@ INSERT INTO `products` (`id`, `product_image`, `product_name`, `product_price`, 
 (45, 'https://lorempixel.com/640/480/?75581', 'nulla', 4144, 48, NULL, NULL),
 (46, 'https://lorempixel.com/640/480/?64980', 'illo', 6938, 15, NULL, NULL),
 (47, 'https://lorempixel.com/640/480/?53863', 'ratione', 2794, 79, NULL, NULL),
-(48, 'https://lorempixel.com/640/480/?78997', 'est', 4684, 69, NULL, NULL),
+(48, 'https://lorempixel.com/640/480/?78997', 'est', 4684, 91, NULL, NULL),
 (49, 'https://lorempixel.com/640/480/?39473', 'occaecati', 8410, 52, NULL, NULL),
 (50, 'https://lorempixel.com/640/480/?54746', 'repellendus', 6514, 60, NULL, NULL),
-(57, 'https://lorempixel.com/640/480/?54746', 'Coba aja', 8997, 98798, NULL, NULL),
 (61, 'https://lorempixel.com/640/480/?54746', 'Selamat Datang di halaman admin : admin', 2455, 214, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `savings`
+--
+
+CREATE TABLE `savings` (
+  `id` int(11) NOT NULL,
+  `user_id` varchar(255) NOT NULL,
+  `coin` bigint(20) DEFAULT '0',
+  `poin` int(11) DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `savings`
+--
+
+INSERT INTO `savings` (`id`, `user_id`, `coin`, `poin`) VALUES
+(1, 'user', 51000, 212),
+(6, 'guru', 70000, 22),
+(7, 'telek', 0, 0),
+(8, 'cacing', 0, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `savings_record`
+--
+
+CREATE TABLE `savings_record` (
+  `id` int(11) NOT NULL,
+  `code_savings` varchar(255) NOT NULL,
+  `user_id` varchar(255) NOT NULL,
+  `savings_coin` bigint(20) NOT NULL,
+  `status` int(11) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `savings_record`
+--
+
+INSERT INTO `savings_record` (`id`, `code_savings`, `user_id`, `savings_coin`, `status`) VALUES
+(1, 'TabunganYasiha-CAGDMHRCV1', 'user', 10000, 1),
+(8, 'TabunganYasiha-QO7FNYX6ZP', 'guru', 14000, 0),
+(9, 'TabunganYasiha-DGBS7COH92', 'guru', 15000, 2),
+(12, 'TabunganYasiha-HNM1XGVJUA', 'user', 5000, 1),
+(15, 'TabunganYasiha-36GDAT7M8H', 'user', 1000, 1),
+(17, 'TabunganYasiha-GY0EOSP7QC', 'guru', 5000, 1);
 
 -- --------------------------------------------------------
 
@@ -108,7 +157,7 @@ CREATE TABLE `transactions` (
   `product_id` int(11) NOT NULL,
   `quantity` int(11) NOT NULL,
   `cost_total` int(11) NOT NULL,
-  `status` int(11) NOT NULL DEFAULT '0',
+  `status` int(11) DEFAULT '0',
   `time` date NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -119,12 +168,18 @@ CREATE TABLE `transactions` (
 --
 
 INSERT INTO `transactions` (`id`, `code_transaction`, `user_id`, `product_id`, `quantity`, `cost_total`, `status`, `time`, `created_at`, `updated_at`) VALUES
-(1, 'SISWAYasiha-FKY0I8Caqw', 'user', 2, 7, 37744, 1, '2019-05-01', NULL, NULL),
-(30, 'SISWAYasiha-FKY0I8C27J', 'user', 2, 7, 37744, 1, '2019-04-11', NULL, NULL),
-(31, 'SISWAYasiha-XDNWCOV0L6', 'user', 2, 3, 16176, 1, '2019-01-23', NULL, NULL),
-(32, 'GURUYasiha-VMJ2K04TWO', 'guru', 3, 3, 11100, 0, '2019-05-23', NULL, NULL),
-(35, 'GURUYasiha-XDNaCOV0L6', 'guru', 2, 3, 16176, 1, '2018-05-13', NULL, NULL),
-(36, 'GURUYasiha-XDAWCOV0L6', 'guru', 8, 6, 16176, 1, '2019-01-23', NULL, NULL);
+(57, 'SISWAYasiha-DLSP7Z2RGT', 'user', 1, 12, 17964, 1, '2019-01-16', NULL, NULL),
+(58, 'SISWAYasiha-XR90C82VKW', 'user', 6, 23, 20496, 0, '2019-02-10', NULL, NULL),
+(59, 'SISWAYasiha-CFTSO0V6HZ', 'user', 10, 11, 11165, 1, '2019-03-14', NULL, NULL),
+(60, 'GURUYasiha-RUBTOV4JC2', 'guru', 48, 22, 10307, 1, '2019-12-20', NULL, NULL),
+(61, 'GURUYasiha-8HPDWBAQRE', 'guru', 27, 31, 17209, 1, '2019-04-09', NULL, NULL),
+(62, 'SISWAYasiha-DLSEBZ2RGT', 'user', 1, 3, 11964, 1, '2019-05-14', NULL, NULL),
+(65, 'SISWAYasiha-U0G5MWI8S1', 'user', 1, 5, 9985, 0, '2019-06-26', NULL, NULL),
+(66, 'SISWAYasiha-DASP7Z2RGT', 'user', 1, 12, 10764, 1, '2019-07-16', NULL, NULL),
+(67, 'SISWAYasiha-XR90C8AVKW', 'user', 6, 23, 21046, 1, '2019-08-10', NULL, NULL),
+(68, 'SISWAYasiha-CATSO0V6HZ', 'user', 10, 11, 11165, 2, '2019-09-14', NULL, NULL),
+(69, 'GURUYasiha-RUBTEV4JC2', 'guru', 48, 22, 13048, 1, '2019-10-20', NULL, NULL),
+(70, 'GURUYasiha-8EPDWBAQRE', 'guru', 27, 31, 18720, 0, '2019-11-09', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -166,7 +221,9 @@ INSERT INTO `users` (`id`, `username`, `password`, `email`, `role`, `remember_to
 (16, 'user13', 'ee11cbb19052e40b07aac0ca060c23ee', 'user13@mail.com', 0, NULL, NULL, NULL),
 (17, 'user14', 'ee11cbb19052e40b07aac0ca060c23ee', 'user14@mail.com', 0, NULL, NULL, NULL),
 (18, 'user15', 'ee11cbb19052e40b07aac0ca060c23ee', 'user15@mail.com', 0, NULL, NULL, NULL),
-(19, 'user16', 'ee11cbb19052e40b07aac0ca060c23ee', 'user16@mail.com', 0, NULL, NULL, NULL);
+(19, 'user16', 'ee11cbb19052e40b07aac0ca060c23ee', 'user16@mail.com', 0, NULL, NULL, NULL),
+(20, 'telek', '870c412ec0db61769abe85dadda27a15', NULL, 0, NULL, NULL, NULL),
+(21, 'cacing', '43035732d194997fd7f2b152993e9d84', NULL, 0, NULL, NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -176,6 +233,19 @@ INSERT INTO `users` (`id`, `username`, `password`, `email`, `role`, `remember_to
 -- Indexes for table `products`
 --
 ALTER TABLE `products`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `savings`
+--
+ALTER TABLE `savings`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `savings_record`
+--
+ALTER TABLE `savings_record`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -204,16 +274,28 @@ ALTER TABLE `products`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
+-- AUTO_INCREMENT for table `savings`
+--
+ALTER TABLE `savings`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `savings_record`
+--
+ALTER TABLE `savings_record`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
+--
 -- AUTO_INCREMENT for table `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

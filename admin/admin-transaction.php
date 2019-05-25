@@ -49,18 +49,18 @@ if (isset($_SESSION['username']) && $_SESSION['role'] == '2') {
         </style>
 
         <!-- =======================================================
-                            Template Name: Dashio
-                            Template URL: https://templatemag.com/dashio-bootstrap-admin-template/
-                            Author: TemplateMag.com
-                            License: https://templatemag.com/license/
-                            ======================================================= -->
+                                            Template Name: Dashio
+                                            Template URL: https://templatemag.com/dashio-bootstrap-admin-template/
+                                            Author: TemplateMag.com
+                                            License: https://templatemag.com/license/
+                                            ======================================================= -->
     </head>
 
     <body>
         <section id="container">
             <!-- **********************************************************************************************************************************************************
-                                                TOP BAR CONTENT & NOTIFICATIONS
-                                                *********************************************************************************************************************************************************** -->
+                                                                TOP BAR CONTENT & NOTIFICATIONS
+                                                                *********************************************************************************************************************************************************** -->
             <!--header start-->
             <header class="header black-bg">
                 <div class="sidebar-toggle-box">
@@ -77,8 +77,8 @@ if (isset($_SESSION['username']) && $_SESSION['role'] == '2') {
             </header>
             <!--header end-->
             <!-- **********************************************************************************************************************************************************
-                                                MAIN SIDEBAR MENU
-                                                *********************************************************************************************************************************************************** -->
+                                                                MAIN SIDEBAR MENU
+                                                                *********************************************************************************************************************************************************** -->
             <!--sidebar start-->
             <aside>
                 <div id="sidebar" class="nav-collapse ">
@@ -116,14 +116,20 @@ if (isset($_SESSION['username']) && $_SESSION['role'] == '2') {
                                 <span>Recap</span>
                             </a>
                         </li>
+                        <li class="sub-menu">
+                            <a href="admin-savings.php">
+                                <i class="fa fa-th"></i>
+                                <span>Savings</span>
+                            </a>
+                        </li>
                     </ul>
                     <!-- sidebar menu end-->
                 </div>
             </aside>
             <!--sidebar end-->
             <!-- **********************************************************************************************************************************************************
-                                MAIN CONTENT
-                                *********************************************************************************************************************************************************** -->
+                                                MAIN CONTENT
+                                                *********************************************************************************************************************************************************** -->
             <!--main content start-->
             <section id="main-content">
                 <section class="wrapper mt">
@@ -151,7 +157,7 @@ if (isset($_SESSION['username']) && $_SESSION['role'] == '2') {
                             ";
                             unset($_SESSION['success']);
                         } ?>
-                    </div>                    
+                    </div>
                     <!-- NEW ICONS -->
                     <h4><i class="fa fa-angle-right"></i> List Transactions</h4>
                     <div class="container">
@@ -165,37 +171,48 @@ if (isset($_SESSION['username']) && $_SESSION['role'] == '2') {
                                     <th>Quantity</th>
                                     <th>Cost Total</th>
                                     <th>Status</th>
-                                    <th>#</th>
                                 </tr>
                             </thead>
                             <tbody>
-                            <?php
-                                include_once('../helper/config.php');
-                                $sql = "SELECT * FROM transactions INNER JOIN products ON transactions.product_id = products.id";
+                                <?php
+                                require_once '../helper/config.php';
+                                $sql = "SELECT 
+                                a.id, a.code_transaction, a.user_id, a.product_id, a.quantity, a.cost_total, a.status,
+                                b.product_name, b.product_quantity,
+                                c.user_id, c.poin
+                                FROM transactions AS a INNER JOIN products AS b ON a.product_id = b.id INNER JOIN savings AS c ON a.user_id = c.user_id ORDER BY id DESC";
                                 $query = $conn->query($sql);
                                 $id = 1;
-                                while ($row = $query->fetch_assoc()) {
-                                    $status = array(
-                                        "0" => "Pending",
-                                        "1" => "Paid",
-                                        "2" => "Canceled"
-                                    );
-                                    echo
-                                    "<tr>
-                                    <td>" . $id++ . "</td>
-                                    <td>" . $row['code_transaction'] . "</td>
-                                    <td>" . $row['user_id'] . "</td>
-                                    <td>" . $row['product_name'] . "</td>
-                                    <td>" . $row['quantity'] . "</td>
-                                    <td>" . $row['cost_total'] . "</td>
-                                    <td>" . $status[$row['status']] . "</td>
-                                    <td>
-                                    <a href='#edit_" . $row['id'] . "' class='btn btn-success btn-sm' data-toggle='modal'><span class='glyphicon glyphicon-edit'></span> Change Status</a>
-                                    </td>
-                                    </tr>";
+                                $status = array(
+                                    "0" => "Pending",
+                                    "1" => "Paid",
+                                    "2" => "Canceled"
+                                );
+                                ?>
+                                <?php while ($row = $query->fetch_assoc()) { ?>
+                                    <tr>
+                                        <td><?php echo $id++; ?></td>
+                                        <td><?php echo $row['code_transaction']; ?></td>
+                                        <td><?php echo $row['user_id']; ?></td>
+                                        <td><?php echo $row['product_name']; ?></td>
+                                        <td><?php echo $row['quantity']; ?></td>
+                                        <td><?php echo $row['cost_total']; ?></td>
+                                        <td>
+                                            <?php
+                                            if ($row['status'] == 0) {
+                                                echo "<a href='#edit_" . $row['id'] . "' class='btn btn-warning btn-sm' data-toggle='modal'><span class='glyphicon glyphicon-edit'></span> " . $status[$row['status']] . "</a>";
+                                            } else if ($row['status'] == 1) {
+                                                echo "<a href='#' class='btn btn-success btn-sm' data-toggle='modal'><span class='glyphicon glyphicon-edit'></span> " . $status[$row['status']] . "</a>";
+                                            } else {
+                                                echo "<a href='#' class='btn btn-danger btn-sm' data-toggle='modal'><span class='glyphicon glyphicon-edit'></span> " . $status[$row['status']] . "</a>";
+                                            };
+                                            ?>
+                                        </td>
+                                    </tr>
+                                    <?php
                                     include('admin-transaction-modal.php');
                                 }
-                                ?>                            
+                                ?>
                             </tbody>
                         </table>
                     </div>
@@ -213,11 +230,11 @@ if (isset($_SESSION['username']) && $_SESSION['role'] == '2') {
                     </p>
                     <div class="credits">
                         <!--
-                                                You are NOT allowed to delete the credit link to TemplateMag with free version.
-                                                You can delete the credit link only if you bought the pro version.
-                                                Buy the pro version with working PHP/AJAX contact 
-                                                form: https://templatemag.com/dashio-bootstrap-admin-template/Licensing information: https://templatemag.com/license/
-                                                -->
+                                                                You are NOT allowed to delete the credit link to TemplateMag with free version.
+                                                                You can delete the credit link only if you bought the pro version.
+                                                                Buy the pro version with working PHP/AJAX contact 
+                                                                form: https://templatemag.com/dashio-bootstrap-admin-template/Licensing information: https://templatemag.com/license/
+                                                                -->
                         Created with Dashio template by <a href="https://templatemag.com/">TemplateMag</a>
                     </div>
                     <a href="font_awesome.html#" class="go-top">

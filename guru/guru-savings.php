@@ -24,9 +24,6 @@ if (isset($_SESSION['username']) && $_SESSION['role'] == '1') {
         <script src="../lib/popper.min.js"></script>
         <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script> -->
 
-        <!-- sweet alert 1 -->
-        <!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
-        <script src="../lib/sweetalert.min.js"></script>
 
         <!-- Bootstrap core CSS -->
         <link href="../lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -48,19 +45,10 @@ if (isset($_SESSION['username']) && $_SESSION['role'] == '1') {
         <link rel="stylesheet" type="text/css" href="../DataTables/media/css/jquery.dataTables.css">
         <link rel="stylesheet" type="text/css" href="../DataTables/media/css/dataTables.bootstrap.css">
 
-        <!-- =======================================================
-                                            Template Name: Dashio
-                                            Template URL: https://templatemag.com/dashio-bootstrap-admin-template/
-                                            Author: TemplateMag.com
-                                            License: https://templatemag.com/license/
-                                            ======================================================= -->
     </head>
 
     <body>
         <section id="container">
-            <!-- **********************************************************************************************************************************************************
-                                                                TOP BAR CONTENT & NOTIFICATIONS
-                                                                *********************************************************************************************************************************************************** -->
             <!--header start-->
             <header class="header black-bg">
                 <div class="sidebar-toggle-box">
@@ -76,9 +64,6 @@ if (isset($_SESSION['username']) && $_SESSION['role'] == '1') {
                 </div>
             </header>
             <!--header end-->
-            <!-- **********************************************************************************************************************************************************
-                                                                MAIN SIDEBAR MENU
-                                                                *********************************************************************************************************************************************************** -->
             <!--sidebar start-->
             <aside>
                 <div id="sidebar" class="nav-collapse ">
@@ -99,13 +84,13 @@ if (isset($_SESSION['username']) && $_SESSION['role'] == '1') {
                             </a>
                         </li>
                         <li class="sub-menu">
-                            <a class="active" href="guru-transaction.php">
+                            <a href="guru-transaction.php">
                                 <i class="fa fa-tasks"></i>
                                 <span>Transaction</span>
                             </a>
                         </li>
                         <li class="sub-menu">
-                            <a href="guru-savings.php">
+                            <a class="active" href="guru-savings.php">
                                 <i class="fa fa-tasks"></i>
                                 <span>Savings</span>
                             </a>
@@ -115,15 +100,21 @@ if (isset($_SESSION['username']) && $_SESSION['role'] == '1') {
                 </div>
             </aside>
             <!--sidebar end-->
-            <!-- **********************************************************************************************************************************************************
-                                                MAIN CONTENT
-                                                *********************************************************************************************************************************************************** -->
             <!--main content start-->
             <section id="main-content">
                 <section class="wrapper mt">
-                    <h3><i class="fa fa-angle-right"></i> Transaction</h3>
+                    <h3><i class="fa fa-angle-right"></i> Savings</h3>
                     <hr>
-                    <!-- Alert -->
+                    <?php
+                    include_once('../helper/config.php');
+
+                    $sql    = "SELECT * FROM savings WHERE user_id = '$_SESSION[username]'";
+                    $query  = $conn->query($sql);
+                    ?>
+                    <?php while ($row = $query->fetch_assoc()) { ?>
+                        <h4>Your Money : <b><?php echo $row['coin']; ?></b>    Your Poin : <b><?php echo $row['poin']; ?></b></h4>
+                    <?php } ?>
+                    <hr>
                     <div class="row">
                         <?php
                         if (isset($_SESSION['error'])) {
@@ -146,97 +137,95 @@ if (isset($_SESSION['username']) && $_SESSION['role'] == '1') {
                             ";
                             unset($_SESSION['success']);
                         } ?>
-                    </div>
-                    <!-- Alert -->
-                    <h4><i class="fa fa-angle-right"></i> List Transactions</h4>
+                    </div>                    
+                    <!-- NEW ICONS -->
+                    <h4><i class="fa fa-angle-right"></i> List Savings</h4>
+                    <a href="#addnew" data-toggle="modal" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Save your money</a>
+                    <br><br>
                     <div class="container">
                         <table id="myTable" class="ttable table-striped table-bordered data" width="95%">
                             <thead>
-                                <th width="0.1px"">ID</th>
-                                <th >Code Transaction</th>
-                                <th >Product Name</th>
-                                <th >Product Quntity</th>
-                                <th >Product Cost Total</th>
-                                <th >Status</th>
-                                <th >Receipt</th>
+                                <th>ID</th>
+                                <th>Code Savings</th>
+                                <th>Savings Coin</th>
+                                <th>Status</th>
+                                <th>#</th>
                             </thead>
                             <tbody>
                                 <?php
+                                include_once('../helper/config.php');
+                                $sql = "SELECT * FROM savings_record WHERE user_id = '$_SESSION[username]' ORDER BY id DESC";
+                                $query = $conn->query($sql);
                                 $id = 1;
                                 $status = array(
                                     '0' => 'Pending',
                                     '1' => 'Success',
                                     '2' => 'Failed'
                                 );
-                                include_once('../helper/config.php');
-                                $sql = "SELECT * FROM transactions LEFT JOIN products ON transactions.product_id = products.id WHERE user_id='".$_SESSION['username']."'";
-                                // $sql = "SELECT * FROM transactions WHERE user_id='".$_SESSION['username']."'";
-                                $query = $conn->query($sql);
                                 while ($row = $query->fetch_assoc()) {
                                     echo
                                     "<tr>
                                     <td>" . $id++ . "</td>
-                                    <td>" . $row['code_transaction'] . "</td>
-                                    <td>" . $row['product_name'] . "</td>
-                                    <td>" . $row['quantity'] . "</td>
-                                    <td>" . $row['cost_total'] . "</td>
+                                    <td>" . $row['code_savings'] . "</td>
+                                    <td>" . $row['savings_coin'] . "</td>
                                     <td>" . $status[$row['status']] . "</td>
                                     <td>
-                                    <a href='guru-transaction-print.php?id=" . $row['code_transaction'] . "' class='btn btn-success btn-sm'><span class='glyphicon glyphicon-print'></span> Print</a>
+                                    <a href='guru-savings-print.php?id=" . $row['code_savings'] . "' class='btn btn-success btn-sm'><span class='glyphicon glyphicon-print'></span> Print</a>
                                     </td>
                                     </tr>";
-                                    include('guru-product-order.php');
+                                    include('guru-savings-modal.php');
                                 }
                                 ?>
-                                </tbody>
-                            </table>
-                        </div>
-                        <hr>
-                    </section>
-                    <!-- /wrapper -->
-                </section>
-                <!-- /MAIN CONTENT -->
-                <!--main content end-->
-                <!--footer start-->
-                <footer class=" site-footer">
-                    <div class="text-center">
-                        <p>
-                            &copy; Copyrights <strong>Dashio</strong>. All Rights Reserved
-                        </p>
-                        <div class="credits">
-                                            <!--
-                                                                You are NOT allowed to delete the credit link to TemplateMag with free version.
-                                                                You can delete the credit link only if you bought the pro version.
-                                                                Buy the pro version with working PHP/AJAX contact 
-                                                                form: https://templatemag.com/dashio-bootstrap-admin-template/Licensing information: https://templatemag.com/license/
-                                                                -->
-                            Created with Dashio template by <a href="https://templatemag.com/">TemplateMag</a>
-                        </div>
-                        <a href="font_awesome.html#" class="go-top">
-                            <i class="fa fa-angle-up"></i>
-                        </a>
+                            </tbody>
+                        </table>
                     </div>
-                </footer>
-                <!--footer end-->
+                    <hr>
+                </section>
+                <!-- /wrapper -->
             </section>
-            <!-- js placed at the end of the document so the pages load faster -->
-            <script src="../lib/bootstrap/js/bootstrap.min.js"></script>
-            <script src="../lib/jquery.dcjqaccordion.2.7.js" class="include" type="text/javascript"></script>
-            <script src="../lib/jquery.scrollTo.min.js"></script>
-            <script src="../lib/jquery.nicescroll.js" type="text/javascript"></script>
-            <!--common script for all pages-->
-            <script src="../lib/common-scripts.js"></script>
-            <!--script for this page-->
+            <!-- /MAIN CONTENT -->
+            <!--main content end-->
+            <!--footer start-->
+            <footer class="site-footer">
+                <div class="text-center">
+                    <p>
+                        &copy; Copyrights <strong>Dashio</strong>. All Rights Reserved
+                    </p>
+                    <div class="credits">
+                        Created with Dashio template by <a href="https://templatemag.com/">TemplateMag</a>
+                    </div>
+                    <a href="font_awesome.html#" class="go-top">
+                        <i class="fa fa-angle-up"></i>
+                    </a>
+                </div>
+            </footer>
+            <!--footer end-->
+        </section>
+        <!-- js placed at the end of the document so the pages load faster -->
+        <script src="../lib/bootstrap/js/bootstrap.min.js"></script>
+        <script src="../lib/jquery.dcjqaccordion.2.7.js" class="include" type="text/javascript"></script>
+        <script src="../lib/jquery.scrollTo.min.js"></script>
+        <script src="../lib/jquery.nicescroll.js" type="text/javascript"></script>
+        <!--common script for all pages-->
+        <script src="../lib/common-scripts.js"></script>
+        <!--script for this page-->
     </body>
-    <script type="text/javascript">
-    $(document).ready(function() {
-        $('.data').DataTable();
-    });
+    <script>        
+        $(document).ready(function() {
+            //inialize datatable
+            $('#myTable').DataTable();
+
+            //hide alert
+            $(document).on('click', '.close', function() {
+                $('.alert').hide();
+            })            
+        });
     </script>
+
     </html>
 
 <?php
 } else {
-    header("location:../guru-dashboard.php");
+    header("location:../admin-dashboard.php");
 }
 ?>
